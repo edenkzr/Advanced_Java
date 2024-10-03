@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {HttpClient, HttpResponse,HttpHeaders} from "@angular/common/http";
 import { Observable } from 'rxjs';
+import {HttpClientModule} from "@angular/common/http";
 import {map} from "rxjs/operators";
 
 
@@ -27,12 +28,24 @@ export class AppComponent implements OnInit{
   request!:ReserveRoomRequest;
   currentCheckInVal!:string;
   currentCheckOutVal!:string;
+  messages!: string[];
+
+
+
 
     ngOnInit(){
+      this.httpClient.get<string[]>(this.baseURL + '/api/presentation', {responseType: 'json'})
+        .subscribe((response: string[])=>{
+          this.messages = response;
+        });
+
+
+
       this.roomsearch= new FormGroup({
         checkin: new FormControl(' '),
         checkout: new FormControl(' ')
       });
+
 
  //     this.rooms=ROOMS;
 

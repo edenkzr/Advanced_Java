@@ -29,6 +29,7 @@ export class AppComponent implements OnInit{
   currentCheckInVal!:string;
   currentCheckOutVal!:string;
   messages!: string[];
+  timezones!: string[];
 
 
 
@@ -37,6 +38,11 @@ export class AppComponent implements OnInit{
       this.httpClient.get<string[]>(this.baseURL + '/api/presentation', {responseType: 'json'})
         .subscribe((response: string[])=>{
           this.messages = response;
+        });
+
+      this.httpClient.get<string[]>(this.baseURL + '/api/timezone', {responseType: 'json'})
+        .subscribe((response: string[])=>{
+          this.timezones = response;
         });
 
 

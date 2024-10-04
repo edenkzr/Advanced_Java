@@ -28,7 +28,10 @@
 <main id="wrapper">
   <div class="scene" id="welcome">
     <article class="content">
-
+      <p>Join us for an online live presentation on October 11, 2024</p>
+      <div *ngFor="let timezone of timezones" class="form-group">
+        <p>{{ timezone }}</p>
+      </div>
 
       <div class="row">
         <div class=""col-12>

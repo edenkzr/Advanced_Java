@@ -6,31 +6,31 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-import java.util.concurrent.ExecutorService;
-
-import static java.util.concurrent.Executors.newFixedThreadPool;
 
 public class MessageService {
 
     public static Map<String, String> messages = new HashMap<>();
-    public static String englishMessage;
-    static String frenchMessage;
-    static ExecutorService messageExecutor=newFixedThreadPool(5);
 
-    public MessageService() {
+    public Properties getMessages(String fileName) {
+        Properties props = new Properties();
+
+        try {
+            InputStream stream = new ClassPathResource(fileName).getInputStream();
+            props.load(stream);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return props;
+    }
+
+    /*public MessageService() {
         Properties props = new Properties();
 
         messageExecutor.execute(()-> {
             try {
                 InputStream stream = new ClassPathResource("translations_en_US.properties").getInputStream();
                 props.load(stream);
-				/*System.out.println(props.getProperty("welcome"));
-				stream = new ClassPathResource("translations_en_US.properties").getInputStream();
-				props.load(stream);
-				System.out.println(props.getProperty("welcome"));
-				stream = new ClassPathResource("translations_en_US.properties").getInputStream();
-				props.load(stream);
-				System.out.println(props.getProperty("welcome"));*/
                 messages.put("en_US", props.getProperty("welcome"));
             } catch (Exception e) {
                 e.printStackTrace();
@@ -40,13 +40,6 @@ public class MessageService {
             try {
                 InputStream stream = new ClassPathResource("translations_fr_CA.properties").getInputStream();
                 props.load(stream);
-				/*System.out.println(props.getProperty("welcome"));
-				stream = new ClassPathResource("translations_fr_CA.properties").getInputStream();
-				props.load(stream);
-				System.out.println(props.getProperty("welcome"));
-				stream = new ClassPathResource("translations_fr_CA.properties").getInputStream();
-				props.load(stream);
-				System.out.println(props.getProperty("welcome"));*/
                 messages.put("fr_CA", props.getProperty("welcome"));
             } catch (Exception e) {
                 e.printStackTrace();
@@ -54,7 +47,7 @@ public class MessageService {
         });
         messageExecutor.shutdown();
         try {
-            // Wait for a maximum of 5 seconds for the tasks to complete
+
             if (messageExecutor.awaitTermination(5, java.util.concurrent.TimeUnit.SECONDS)) {
                 englishMessage = messages.get("en_US"); // Get value for English
                 frenchMessage = messages.get("fr_CA"); // Get value for French
@@ -70,5 +63,9 @@ public class MessageService {
             e.printStackTrace();
         }
     }
+    public static String englishMessage;
+    static String frenchMessage;
+    static ExecutorService messageExecutor=newFixedThreadPool(5);
+    */
 
 }
